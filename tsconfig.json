@@ -11,6 +11,7 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": [
+    "src/**/*",
     "ValidateNZBankAccount/**/*",
     "ValidateNZIRDNumber/**/*"
   ]
