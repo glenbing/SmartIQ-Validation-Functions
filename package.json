@@ -1,0 +1,26 @@
+{
+  "name": "smartiq-validation-functions",
+  "version": "1.0.0",
+  "description": "Azure Functions for validating NZ Bank Accounts and IRD Numbers",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "prestart": "npm run build",
+    "start": "func start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.x",
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "ts-jest": "^29.0.0"
+  },
+  "keywords": ["azure-functions", "validation", "nz"],
+  "author": "",
+  "license": "ISC"
+}
