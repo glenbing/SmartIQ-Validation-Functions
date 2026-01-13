@@ -36,7 +36,7 @@ const bankBranchRanges: { [key: string]: Array<[number, number]> } = {
 };
 
 // Banks that use A/B algorithm selection based on account base
-const abBanks = new Set(["01", "02", "03", "04", "06", "10", "11", "12", "13", "14", "15", 
+const abBanks = new Set(["01", "02", "03", "06", "10", "11", "12", "13", "14", "15", 
                          "16", "17", "18", "19", "20", "21", "22", "23", "24", "27", 
                          "30", "35", "38"]);
 
@@ -62,6 +62,9 @@ const algorithmMap: { [key: string]: string } = {
   "08": "D", "09": "E", "25": "F", "26": "G", "28": "G", "29": "G",
   "31": "X", "33": "F"
 };
+
+// Threshold for choosing between algorithm A and B
+const AB_ALGORITHM_THRESHOLD = 990000;
 
 interface ValidationResult {
   isValid: boolean;
@@ -177,7 +180,7 @@ export function validateNZBankAccount(accountNumber: string): ValidationResult {
   if (abBanks.has(bank)) {
     // For AB banks, choose A or B based on account base
     const baseNumber = parseInt(base, 10);
-    algorithmKey = baseNumber < 990000 ? "A" : "B";
+    algorithmKey = baseNumber < AB_ALGORITHM_THRESHOLD ? "A" : "B";
   } else {
     // Use the fixed algorithm for this bank
     algorithmKey = algorithmMap[bank];

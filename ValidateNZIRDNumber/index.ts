@@ -10,6 +10,10 @@ const WEIGHTS_PRIMARY = [3, 2, 7, 6, 5, 4, 3, 2];
 // Secondary weights (used if primary gives check digit 10)
 const WEIGHTS_SECONDARY = [7, 4, 3, 2, 5, 2, 7, 6];
 
+// Valid IRD number range
+const MIN_IRD_NUMBER = 10000000;
+const MAX_IRD_NUMBER = 150000000;
+
 function calculateCheckDigit(digits: number[], weights: number[]): number {
   let sum = 0;
   for (let i = 0; i < 8; i++) {
@@ -40,9 +44,9 @@ export function validateNZIRDNumber(irdNumber: string): ValidationResult {
   // Parse the number
   const irdNum = parseInt(cleaned, 10);
 
-  // Check valid range (10,000,000 to 150,000,000)
-  if (irdNum < 10000000 || irdNum > 150000000) {
-    return { isValid: false, error: "IRD number out of valid range (10,000,000 - 150,000,000)" };
+  // Check valid range
+  if (irdNum < MIN_IRD_NUMBER || irdNum > MAX_IRD_NUMBER) {
+    return { isValid: false, error: `IRD number out of valid range (${MIN_IRD_NUMBER.toLocaleString()} - ${MAX_IRD_NUMBER.toLocaleString()})` };
   }
 
   // Pad to 9 digits if needed
