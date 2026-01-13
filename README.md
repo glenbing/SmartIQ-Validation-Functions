@@ -2,6 +2,15 @@
 
 Azure Functions for validating New Zealand Bank Account numbers and IRD (Inland Revenue Department) numbers.
 
+## API Documentation
+
+The complete API specification is available in OpenAPI v3 format: [openapi.json](./openapi.json)
+
+You can view and interact with the API documentation using tools like:
+- [Swagger Editor](https://editor.swagger.io/) - Paste the contents of openapi.json
+- [Swagger UI](https://petstore.swagger.io/) - Enter the URL to your openapi.json
+- [Postman](https://www.postman.com/) - Import the openapi.json file
+
 ## Functions
 
 ### 1. ValidateNZBankAccount
