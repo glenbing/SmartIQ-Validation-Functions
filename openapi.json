@@ -1,0 +1,328 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "SmartIQ Validation Functions API",
+    "description": "Azure Functions for validating New Zealand Bank Account numbers and IRD (Inland Revenue Department) numbers according to official PaymentsNZ and IRD specifications.",
+    "version": "1.0.0",
+    "license": {
+      "name": "ISC"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://your-function-app.azurewebsites.net/api",
+      "description": "Azure Functions endpoint"
+    }
+  ],
+  "paths": {
+    "/ValidateNZBankAccount": {
+      "get": {
+        "summary": "Validate NZ Bank Account Number (GET)",
+        "description": "Validates New Zealand bank account numbers according to the official PaymentsNZ and IRD specifications using GET method with query parameters.",
+        "operationId": "validateNZBankAccountGet",
+        "tags": ["Bank Account Validation"],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "query",
+            "description": "The NZ bank account number to validate. Format: bank-branch-base-suffix where bank is 2 digits, branch is 1-4 digits, base is 7-8 digits, and suffix is 1-4 digits. Can be separated by dashes or spaces.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "01-0902-0068389-00"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Validation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                },
+                "examples": {
+                  "valid": {
+                    "summary": "Valid bank account",
+                    "value": {
+                      "isValid": true
+                    }
+                  },
+                  "invalid": {
+                    "summary": "Invalid bank account",
+                    "value": {
+                      "isValid": false,
+                      "error": "Account number failed checksum validation"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                },
+                "example": {
+                  "isValid": false,
+                  "error": "Missing required parameter: accountNumber"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Validate NZ Bank Account Number (POST)",
+        "description": "Validates New Zealand bank account numbers according to the official PaymentsNZ and IRD specifications using POST method with JSON body.",
+        "operationId": "validateNZBankAccountPost",
+        "tags": ["Bank Account Validation"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankAccountRequest"
+              },
+              "example": {
+                "accountNumber": "01-0902-0068389-00"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Validation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                },
+                "examples": {
+                  "valid": {
+                    "summary": "Valid bank account",
+                    "value": {
+                      "isValid": true
+                    }
+                  },
+                  "invalid": {
+                    "summary": "Invalid bank account",
+                    "value": {
+                      "isValid": false,
+                      "error": "Account number failed checksum validation"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                },
+                "example": {
+                  "isValid": false,
+                  "error": "Missing required parameter: accountNumber"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ValidateNZIRDNumber": {
+      "get": {
+        "summary": "Validate NZ IRD Number (GET)",
+        "description": "Validates New Zealand IRD (Inland Revenue Department) numbers using the official modulus-11 algorithm via GET method with query parameters.",
+        "operationId": "validateNZIRDNumberGet",
+        "tags": ["IRD Number Validation"],
+        "parameters": [
+          {
+            "name": "irdNumber",
+            "in": "query",
+            "description": "The NZ IRD number to validate. Must be 8 or 9 digits (spaces and dashes are allowed for formatting but will be removed during validation).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "49091850"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Validation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                },
+                "examples": {
+                  "valid": {
+                    "summary": "Valid IRD number",
+                    "value": {
+                      "isValid": true
+                    }
+                  },
+                  "invalid": {
+                    "summary": "Invalid IRD number",
+                    "value": {
+                      "isValid": false,
+                      "error": "IRD number failed checksum validation (expected check digit: 5, got: 1)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                },
+                "example": {
+                  "isValid": false,
+                  "error": "Missing required parameter: irdNumber"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Validate NZ IRD Number (POST)",
+        "description": "Validates New Zealand IRD (Inland Revenue Department) numbers using the official modulus-11 algorithm via POST method with JSON body.",
+        "operationId": "validateNZIRDNumberPost",
+        "tags": ["IRD Number Validation"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IRDNumberRequest"
+              },
+              "example": {
+                "irdNumber": "49091850"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Validation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                },
+                "examples": {
+                  "valid": {
+                    "summary": "Valid IRD number",
+                    "value": {
+                      "isValid": true
+                    }
+                  },
+                  "invalid": {
+                    "summary": "Invalid IRD number",
+                    "value": {
+                      "isValid": false,
+                      "error": "IRD number failed checksum validation (expected check digit: 5, got: 1)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                },
+                "example": {
+                  "isValid": false,
+                  "error": "Missing required parameter: irdNumber"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ValidationResult": {
+        "type": "object",
+        "required": ["isValid"],
+        "properties": {
+          "isValid": {
+            "type": "boolean",
+            "description": "Whether the validation passed or failed"
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message if validation failed (only present when isValid is false)"
+          }
+        }
+      },
+      "ValidationError": {
+        "type": "object",
+        "required": ["isValid", "error"],
+        "properties": {
+          "isValid": {
+            "type": "boolean",
+            "description": "Always false for error responses",
+            "enum": [false]
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message describing what went wrong"
+          }
+        }
+      },
+      "BankAccountRequest": {
+        "type": "object",
+        "required": ["accountNumber"],
+        "properties": {
+          "accountNumber": {
+            "type": "string",
+            "description": "The NZ bank account number to validate. Format: bank-branch-base-suffix where bank is 2 digits, branch is 1-4 digits, base is 7-8 digits, and suffix is 1-4 digits. Can be separated by dashes or spaces.",
+            "example": "01-0902-0068389-00",
+            "pattern": "^\\d{2}[-\\s]\\d{1,4}[-\\s]\\d{7,8}[-\\s]\\d{1,4}$"
+          }
+        }
+      },
+      "IRDNumberRequest": {
+        "type": "object",
+        "required": ["irdNumber"],
+        "properties": {
+          "irdNumber": {
+            "type": "string",
+            "description": "The NZ IRD number to validate. Must be 8 or 9 digits (spaces and dashes are allowed for formatting but will be removed during validation).",
+            "example": "49091850",
+            "pattern": "^[\\d\\s-]{8,13}$"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Bank Account Validation",
+      "description": "Operations for validating New Zealand bank account numbers"
+    },
+    {
+      "name": "IRD Number Validation",
+      "description": "Operations for validating New Zealand IRD numbers"
+    }
+  ]
+}
