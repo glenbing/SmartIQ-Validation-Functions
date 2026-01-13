@@ -25,7 +25,7 @@
           {
             "name": "accountNumber",
             "in": "query",
-            "description": "The NZ bank account number to validate in format XX-XXXX-XXXXXXX-XXX (bank-branch-base-suffix)",
+            "description": "The NZ bank account number to validate. Format: bank-branch-base-suffix where bank is 2 digits, branch is 1-4 digits, base is 7-8 digits, and suffix is 1-4 digits. Can be separated by dashes or spaces.",
             "required": true,
             "schema": {
               "type": "string",
@@ -146,7 +146,7 @@
           {
             "name": "irdNumber",
             "in": "query",
-            "description": "The NZ IRD number to validate (8 or 9 digits)",
+            "description": "The NZ IRD number to validate. Must be 8 or 9 digits (spaces and dashes are allowed for formatting but will be removed during validation).",
             "required": true,
             "schema": {
               "type": "string",
@@ -295,9 +295,9 @@
         "properties": {
           "accountNumber": {
             "type": "string",
-            "description": "The NZ bank account number to validate in format XX-XXXX-XXXXXXX-XXX (bank-branch-base-suffix)",
+            "description": "The NZ bank account number to validate. Format: bank-branch-base-suffix where bank is 2 digits, branch is 1-4 digits, base is 7-8 digits, and suffix is 1-4 digits. Can be separated by dashes or spaces.",
             "example": "01-0902-0068389-00",
-            "pattern": "^\\d{2}-\\d{1,4}-\\d{7,8}-\\d{1,4}$"
+            "pattern": "^\\d{2}[-\\s]\\d{1,4}[-\\s]\\d{7,8}[-\\s]\\d{1,4}$"
           }
         }
       },
@@ -307,9 +307,9 @@
         "properties": {
           "irdNumber": {
             "type": "string",
-            "description": "The NZ IRD number to validate (8 or 9 digits, optionally with dashes or spaces)",
+            "description": "The NZ IRD number to validate. Must be 8 or 9 digits (spaces and dashes are allowed for formatting but will be removed during validation).",
             "example": "49091850",
-            "pattern": "^[\\d\\s-]{8,11}$"
+            "pattern": "^[\\d\\s-]{8,13}$"
           }
         }
       }
