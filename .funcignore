@@ -10,17 +10,9 @@ test
 .DS_Store
 tsconfig.json
 jest.config.js
-node_modules/.bin
-node_modules/typescript
-node_modules/@types
-node_modules/jest
-node_modules/ts-jest
-node_modules/@jest
 __tests__
 *.test.ts
 *.test.js
 coverage
 .github
 README.md
-ValidateNZBankAccount/*.ts
-ValidateNZIRDNumber/*.ts
