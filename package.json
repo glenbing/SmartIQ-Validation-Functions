@@ -2,7 +2,7 @@
   "name": "smartiq-validation-functions",
   "version": "1.0.0",
   "description": "Azure Functions for validating NZ Bank Accounts and IRD Numbers",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
